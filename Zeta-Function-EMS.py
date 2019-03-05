@@ -1,6 +1,7 @@
 from mpmath import mp
 from scipy import special
 
+# Computation of the Riemann Zeta Function
 # The following formula is based on Euler-Maclaurin Summation as mentioned in 
 # https://math.dartmouth.edu/archive/m56s13/public_html/Nguyen_proj.pdf 
 # which is the work of Hanh Nguyen. 
