@@ -1,0 +1,77 @@
+<html>
+	<head>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/5.5.0/math.min.js" type="text/javascript"></script>
+	</head>
+
+	<script type="text/javascript">
+
+		math.config({
+			number: 'BigNumber', // Default type of number: 
+			// 'number' (default), 'BigNumber', or 'Fraction'
+			precision: 64        // Number of significant digits for BigNumbers
+		})
+
+		bernoulliNumbers = [1.0, -0.5, 0.16666666666666666, 0.0, -0.033333333333275914, 0.0, 0.02380952380952236, 0.0, -0.03333333333333301, 0.0, 0.07575757575757562, 0.0, -0.253113553113553, 0.0, 1.1666666666666672, 0.0, -7.092156862745103, 0.0, 54.97117794486221, 0.0, -529.124242424243, 0.0, 6192.123188405805, 0.0, -86580.25311355322, 0.0, 1425517.1666666688, 0.0, -27298231.067816135, 0.0, 601580873.9006432, 0.0, -15116315767.092178, 0.0, 429614643061.1673, 0.0, -13711655205088.354, 0.0, 488332318973593.94, 0.0, -1.92965793419401e+16, 0.0, 8.416930475736838e+17, 0.0, -4.033807185405952e+19, 0.0, 2.115074863808203e+21, 0.0, -1.208662652229655e+23, 0.0, 7.500866746076979e+24, 0.0, -5.03877810148108e+26, 0.0, 3.65287764848182e+28, 0.0, -2.8498769302450944e+30, 0.0, 2.386542749968368e+32, 0.0, -2.1399949257225386e+34, 0.0, 2.050097572347815e+36, 0.0, -2.0938005911346432e+38, 0.0, 2.275269648846358e+40, 0.0, -2.625771028623965e+42, 0.0, 3.212508210271813e+44, 0.0, -4.159827816679484e+46, 0.0, 5.692069548203546e+48, 0.0, -8.218362941978484e+50, 0.0, 1.2502904327167034e+53, 0.0, -2.001558323324844e+55, 0.0, 3.3674982915364494e+57, 0.0, -5.947097050313566e+59, 0.0, 1.1011910323628018e+62, 0.0, -2.135525954525358e+64, 0.0, 4.332889698664135e+66, 0.0, -9.188552824166966e+68, 0.0, 2.0346896776329147e+71, 0.0, -4.70038339580359e+73, 0.0, 1.131804344548429e+76, 0.0, -2.838224957069381e+78]
+
+		function zetaEMS(input, Nzeta, vzeta) {
+			// vzeta not more than 49
+			// This is to incooperate the fact that we dont have many bernoulli numbers. Only 100 of them.
+
+			if (vzeta > 45) {
+				vzeta = 45
+			}
+
+			sum1 = math.complex(0)
+			input = math.complex(input)
+
+
+			for (n = 1; n < Nzeta; n++) {
+				sum1 = math.add(sum1, math.pow(n, math.multiply(-1, input)))
+			}
+
+			sum1 = math.add(sum1, math.divide(math.pow(Nzeta, math.subtract(1, input)), math.subtract(input, 1)))
+			sum1 = math.add(sum1, math.divide(math.pow(Nzeta, math.multiply(-1, input)), 2))
+			
+
+			sum2 = math.complex(0)
+			for(k1 = 1; k1 <= vzeta + 2; k1++) {
+				t1 = math.divide(bernoulliNumbers[2*k1], fact(2*k1))
+
+				prd = math.complex(1)
+				for (h = 0; h <=  (2*k1) - 2; h++) {
+					prd = math.multiply(prd, math.add(input, h))
+				}
+				t2 = prd
+				t3 = math.pow(Nzeta, math.subtract(math.subtract(1, input), 2*k1))
+				sum2 = math.add(sum2, math.multiply(t1, t2, t3))
+			}
+				
+			return math.add(sum1, sum2)
+
+		}
+
+		function fact(val) {
+			pd = 1
+			for (a = 1; a <= val; a++) {
+				pd = pd*a
+			}
+			return pd
+		}
+
+		function nCr(n, r) {
+			return fact(n)/fact(r)*fact(n - r)
+		}
+			
+
+		sj = '0.5+14.13i'
+
+		console.log(zetaEMS(sj, 50, 40))
+
+
+
+
+	</script>
+
+
+
+</html>
